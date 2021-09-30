@@ -18,37 +18,27 @@ namespace RBGColor
 {
     public partial class Form1 : Form
     {
+        Color[] p = GenPal(500);
         public Form1()
         {
             InitializeComponent();
+            Text = "Cool Fire";
+            ShowIcon = false;
             button1.Hide();
-            DoCoolStuff(this);
+            Width = 500;
+            Height = 190;
         }
-        
-        
-        
-        public void DoCoolStuff(Form form)
-        {
-            form.Width = 1000;
-            form.Height = 800;
-            
-            Bitmap map = new Bitmap(form.Width, form.Height);
 
-            for (int x = 0; x < Width; x++)
-            {
-                for (int u = 0; u < Height; u++)
-                {
-                    map.SetPixel();
-                }
-            }
-            
-            form.Height = form.Height+40;
+        public void DoCoolStuff(PictureBox pictureBox)
+        {
+            Bitmap map = new Bitmap(pictureBox.Width, 150);
+
+            //form.Height = 190;
             Random random = new Random();
-            Color[] p = GenPal(256);
 
             for (int x = 0; x < map.Width; x++)
-            {
-                map.SetPixel(x,map.Height-1, p[random.Next(256)]);
+            {   
+                map.SetPixel(x,map.Height-1, p[Math.Sign(x)]);
                 map.SetPixel(x,map.Height-2, p[random.Next(256)]);
             }
             
@@ -61,17 +51,16 @@ namespace RBGColor
                     Color c3 = map.GetPixel(x, y + 2);
                     Color c4 = map.GetPixel(x + 1, y + 1);
 
-                    int r = ((c1.R + c2.R + c3.R + c4.R) /4);
-                    int g = ((c1.G + c2.G + c3.G + c4.G) /4);
-                    int b = ((c1.B + c2.B + c3.B + c4.B) /4);
+                    int r = (int) ((c1.R + c2.R + c3.R + c4.R) /4.05);
+                    int g = (int) ((c1.G + c2.G + c3.G + c4.G) /4.05);
+                    int b = (int) ((c1.B + c2.B + c3.B + c4.B) /4.05);
                     
                     Color c = Color.FromArgb(r,g,b);
                     
                     map.SetPixel(x, y, c);
                 }
             }
-            Thread.Sleep(10);
-            BackgroundImage = map;
+            pictureBox.Image = map;
         }
 
         public static Color[] GenPal(int num)
@@ -86,7 +75,7 @@ namespace RBGColor
             }
             for (int i = pal.Length/2; i < pal.Length; i++)
             {
-                HsbColor hsbColor = new HsbColor((float) 42 / 360, (float)pal.Length/2/i, (float)1);
+                HsbColor hsbColor = new HsbColor((float) 20 / 360, (float)pal.Length/2/i, (float)1);
                 Nexus.Graphics.Colors.Color c = hsbColor.ToRgbColor();
                 pal[i] = Color.FromArgb(c.R, c.G, c.B);
             }
@@ -96,7 +85,7 @@ namespace RBGColor
 
         private void button1_Click(object sender, EventArgs e)
         {
-            DoCoolStuff(this);
+            //DoCoolStuff(this);
         }
     }
 }
